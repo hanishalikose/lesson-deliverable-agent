@@ -2,11 +2,13 @@ import os, sys
 from dotenv import load_dotenv
 from groq import Groq
 
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 load_dotenv()
 client = Groq(api_key=os.environ["GROQ_API_KEY"])
 
 def audit_lesson(lesson_text: str) -> str:
-    with open("prompts/audit_prompt.md") as f:
+    with open(os.path.join(ROOT, "prompts", "audit_prompt.md")) as f:
         system_prompt = f.read()
     resp = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
